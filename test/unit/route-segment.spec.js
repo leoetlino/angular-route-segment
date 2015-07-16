@@ -6,17 +6,17 @@ describe('route segment', function() {
         beforeEach(module('ngRoute'));
 
     beforeEach(module('route-segment'));
-        
+
     var $routeSegment, $routeSegmentProvider, $rootScope, $httpBackend, $location, $provide;
     var callback;
     
     beforeEach(module(function(_$routeSegmentProvider_, _$provide_) {
-        
+
         $provide = _$provide_;
-        
+
         $routeSegmentProvider = _$routeSegmentProvider_;
-        
-        $routeSegmentProvider        
+
+        $routeSegmentProvider
             .when('/1',             'section-first')
             .when('/2',             'section2')
             .when('/2/X',           'section2.section21')
@@ -25,43 +25,43 @@ describe('route segment', function() {
             .when('/2/:id',         'section2.section23')
             .when('/2/:id/bar',     'section2.section23.section231')
             .when('/invalid',       'invalid')
-            .when('/2/:id/invalid', 'section2.section23.invalid')    
-            
-        $routeSegmentProvider        
-            .segment('section-first', {test: 'A'})                
-            .segment('section2', {test: 'B'})                
-            .within()                
-                .segment('section21', {test: 'C'})                    
-                .within()                    
-                    .segment('section211', {test: 'E'})                    
-                .up()                    
-                .segment('section22', {test: 'D'})        
+            .when('/2/:id/invalid', 'section2.section23.invalid')
+
+        $routeSegmentProvider
+            .segment('section-first', {test: 'A'})
+            .segment('section2', {test: 'B'})
+            .within()
+                .segment('section21', {test: 'C'})
+                .within()
+                    .segment('section211', {test: 'E'})
+                .up()
+                .segment('section22', {test: 'D'})
                 .segment('section23', {test: 'F'})
-        
-        // Starting from the root again                
-        $routeSegmentProvider        
-            .within('section2')            
-                .within('section23')                   
+
+        // Starting from the root again
+        $routeSegmentProvider
+            .within('section2')
+                .within('section23')
                     .segment('section231', {test: 'G'})
-           
+
         $routeSegmentProvider.options.autoLoadTemplates = false;    // We don't want to perform any XHRs here
         $routeSegmentProvider.options.strictMode = true;
     }))
-    
+
     beforeEach(function() {
-        inject(function(_$routeSegment_, _$rootScope_, _$httpBackend_, _$location_) {    
+        inject(function(_$routeSegment_, _$rootScope_, _$httpBackend_, _$location_) {
             $routeSegment = _$routeSegment_;
             $rootScope = _$rootScope_;
             $httpBackend = _$httpBackend_;
             $location = _$location_;
         });
-        
+
         callback = jasmine.createSpy('callback');
-        $rootScope.$on('routeSegmentChange', callback); 
-    });    
+        $rootScope.$on('routeSegmentChange', callback);
+    });
 
     it('creating segments hash', function() {
-        
+
         var segments = $routeSegmentProvider.segments;
         expect(segments.sectionFirst.params.test).toBe('A');
         expect(segments.sectionFirst.children).toBeUndefined();
@@ -69,7 +69,7 @@ describe('route segment', function() {
         expect(segments.section2.children.section21.params.test).toBe('C');
         expect(segments.section2.children.section22.params.test).toBe('D');
         expect(segments.section2.children.section22.children).toBeUndefined();
-        expect(segments.section2.children.section21.children.section211.params.test).toBe('E');        
+        expect(segments.section2.children.section21.children.section211.params.test).toBe('E');
     })
 
     describe('configuring', function() {
@@ -104,7 +104,7 @@ describe('route segment', function() {
             expect($routeSegmentProvider.segments.test.params.baz).toBe('qux');
         })
     })
-    
+
     describe('routing', function () {
 
         it('first level', function () {
@@ -472,86 +472,86 @@ describe('route segment', function() {
 
         })
     });
-    
-    describe('resolving', function() {       
-        
+
+    describe('resolving', function() {
+
         var resolve, resolveInner;
-        
+
         beforeEach(function() {
             resolve = {}, resolveInner = {};
             $routeSegmentProvider.when('/3', 'section3');
             $routeSegmentProvider.when('/3/1', 'section3.section31');
-        })        
-        
+        })
+
         describe('without `untilResolved`', function() {
-            
+
             beforeEach(function() {
                 $routeSegmentProvider.segment('section3', {resolve: resolve});
                 $routeSegmentProvider.within('section3').segment('section31', {resolve: resolveInner});
             })
-        
+
             it('should resolve a param as function', inject(function($q) {
-                
-                var defer = $q.defer();    
+
+                var defer = $q.defer();
                 resolve.param1 = function() { return defer.promise; };
-                
+
                 $location.path('/3');
-                
-                $rootScope.$digest();            
+
+                $rootScope.$digest();
                 expect(callback).not.toHaveBeenCalled();
-                
+
                 defer.resolve();
-                
+
                 $rootScope.$digest();
                 expect(callback).toHaveBeenCalled();
-                expect(callback.calls[0].args[1].segment.name).toBe('section3');     
+                expect(callback.calls[0].args[1].segment.name).toBe('section3');
             }))
-            
+
             it('should resolve a param as an injectable by its string name', inject(function($q) {
-                
+
                 var defer = $q.defer();
                 $provide.factory('injectable', function() {
                     return defer.promise;
-                });            
+                });
                 resolve.param1 = 'injectable';
-                
+
                 $location.path('/3');
-                
-                $rootScope.$digest();            
+
+                $rootScope.$digest();
                 expect(callback).not.toHaveBeenCalled();
-                
+
                 defer.resolve();
-                
-                $rootScope.$digest();            
+
+                $rootScope.$digest();
                 expect(callback).toHaveBeenCalled();
-                expect(callback.calls[0].args[1].segment.name).toBe('section3');   
+                expect(callback.calls[0].args[1].segment.name).toBe('section3');
             }))
-            
+
             it('should receive two resolved values in locals', inject(function($q) {
-                
+
                 var defer1 = $q.defer(), defer2 = $q.defer();
                 resolve.param1 = function() { return defer1.promise; };
                 resolve.param2 = function() { return defer2.promise; };
-                
+
                 $location.path('/3');
                 defer1.resolve('TEST1');
-                
+
                 $rootScope.$digest();
                 expect(callback).not.toHaveBeenCalled();
-                
+
                 defer2.resolve('TEST2');
-                
-                $rootScope.$digest();            
+
+                $rootScope.$digest();
                 expect(callback.calls[0].args[1].segment.locals.param1).toBe('TEST1');
                 expect(callback.calls[0].args[1].segment.locals.param2).toBe('TEST2');
             }))
-            
+
             it('should throw an error if a promise is rejected but no `resolveFailed` provided', inject(function($q) {
-                
+
                 resolve.param1 = function() { return $q.reject(); }
-                
+
                 expect(function() {
-                    $location.path('/3');                
+                    $location.path('/3');
                     $rootScope.$digest();
                 }).toThrow();
             }))
@@ -637,9 +637,9 @@ describe('route segment', function() {
 
             }))
         })
-        
+
         describe('with `untilResolved`', function() {
-        
+
             beforeEach(function() {
                 $routeSegmentProvider.segment('section3', {
                     stage: 'AFTER',
@@ -647,29 +647,29 @@ describe('route segment', function() {
                     untilResolved: {stage: 'BEFORE'}
                 });
             })
-            
+
             it('should call the callback twice, before and after it is resolved', inject(function($q) {
-                
-                var defer = $q.defer();    
+
+                var defer = $q.defer();
                 resolve.param1 = function() { return defer.promise; };
-                
+
                 $location.path('/3');
-                
-                $rootScope.$digest();            
+
+                $rootScope.$digest();
                 expect(callback.calls.length).toBe(1);
                 expect(callback.calls[0].args[1].segment.params.stage).toBe('BEFORE');
-                
+
                 defer.resolve();
-                
+
                 $rootScope.$digest();
                 expect(callback.calls.length).toBe(2);
-                expect(callback.calls[1].args[1].segment.params.stage).toBe('AFTER');     
+                expect(callback.calls[1].args[1].segment.params.stage).toBe('AFTER');
             }))
-            
+
         })
-        
+
         describe('with `resolveFailed`', function() {
-            
+
             beforeEach(function() {
                 $routeSegmentProvider.segment('section3', {
                     stage: 'OK',
@@ -677,13 +677,13 @@ describe('route segment', function() {
                     resolveFailed: {stage: 'ERROR'}
                 });
             })
-            
+
             it('should use resolveFailed set of params if a promise is rejected', inject(function($q) {
-              
+
                 resolve.param1 = function() { return $q.reject('foo'); }
-                
+
                 $location.path('/3');
-                
+
                 $rootScope.$digest();
                 expect(callback.calls[0].args[1].segment.params.stage).toBe('ERROR');
                 expect(callback.calls[0].args[1].segment.locals.error).toEqual('foo');
@@ -709,22 +709,22 @@ describe('route segment', function() {
                 $rootScope.$digest();
                 expect(callback.calls[2].args[1].segment.params.stage).toBe('OK');
             }))
-            
+
             it('should auto-fetch failing templateUrl if resolving is failed', inject(function($q) {
                 resolve.param1 = function() { return $q.reject('foo'); }
-                $routeSegmentProvider.options.autoLoadTemplates = true;                
+                $routeSegmentProvider.options.autoLoadTemplates = true;
                 $routeSegmentProvider.segment('section3', {
                     resolveFailed: {
                         templateUrl: '/abc/def'
                     },
                     resolve: resolve
-                });            
+                });
                 $httpBackend.expectGET('/abc/def').respond(200, 'TEST');
                 $rootScope.$broadcast('$routeChangeSuccess', {$route: {segment: 'section3'}});
-                
+
                 $rootScope.$digest();
                 $httpBackend.flush();
-                expect(callback.calls[0].args[1].segment.locals.error).toEqual('foo');                
+                expect(callback.calls[0].args[1].segment.locals.error).toEqual('foo');
                 expect(callback.calls[0].args[1].segment.locals.$template).toEqual('TEST');
             }))
 
@@ -887,7 +887,7 @@ describe('route segment', function() {
         })
 
     })
-    
+
     describe('reverse routes', function() {
 
         it('should get simple reverse route without params', function() {
