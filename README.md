@@ -6,7 +6,7 @@ A lightweight extension for [AngularJS](http://angularjs.org/) [$route](http://d
 Getting Started
 -------
 
-Example site is located here: 
+Example site is located here:
 
 > [**DEMO SITE**](http://angular-route-segment.com/src/example/)
 
@@ -69,7 +69,7 @@ $routeSegmentProvider.
             dependencies: ['id']}).
 
         within().
-	    
+
             segment('overview', {
                 default: true
                 templateUrl: 'templates/section1/item/overview.html'}).
@@ -103,7 +103,7 @@ $routeSegmentProvider.within('s1').segment('itemInfo', {
     templateUrl: 'templates/section1/item.html',
     controller: Section1ItemCtrl,
     dependencies: ['id']});
-    
+
 $routeSegmentProvider.within('s1').within('itemInfo').segment('overview', {
     templateUrl: 'templates/section1/item/overview.html'});
 ```
@@ -167,8 +167,8 @@ A hash object which can be used to set up the service on config stage:
 - *options.autoLoadTemplates*
 
     When true, it will resolve `templateUrl` automatically via $http service and put its contents into `template`.
-    
-- *options.strictMode* 
+
+- *options.strictMode*
 
     When true, all attempts to call `within` method on non-existing segments will throw an error (you would usually want this behavior in production). When false, it will transparently create new empty segment (can be useful in isolated tests).
 
@@ -179,11 +179,11 @@ The shorthand for `$routeProvider.when()` method with specified fully qualified 
 - *path*
 
     Route URL, e.g. `/foo/bar`
-    
+
 - *name*
-    
+
     Fully qualified route name, e.g. `foo.bar`
-    
+
 - *route*
 
     Mapping information object to be assigned to `$route.current` on route match.
@@ -195,11 +195,11 @@ Adds new segment at current pointer level.
 - *name*
 
     Name of a segment item, e.g. `bar`
-    
+
 - *params*
 
     Segment's parameters hash. The following params are supported:
-    
+
     - `template` provides HTML for the given segment view; if `template` is a function, it will be called with injectable arguments;
     - `templateUrl` is a template which should be fetched from the network via this URL; if `templateUrl` is a function, it will be called with injectable arguments; if neither `template` nor `templateUrl` parameters are defined, the DOM element's transcluded content will be used;
     - `controller` is attached to the given segment view when compiled and linked, this can be any controller definition AngularJS supports;
@@ -208,28 +208,28 @@ Adds new segment at current pointer level.
     - `dependencies` is an array of route param names which are forcing the view to recreate when changed;
     - `watcher` is a $watch-function for recreating the view when its returning value is changed;
     - `resolve` is a hash of functions or injectable names which should be resolved prior to instantiating the template and the controller;
-    - `untilResolved` is the alternate set of params (e.g. `template` and `controller`) which should be used before resolving is completed; 
+    - `untilResolved` is the alternate set of params (e.g. `template` and `controller`) which should be used before resolving is completed;
     - `resolveFailed` is the alternate set of params which should be used if resolving failed;
     - `default` is a boolean value which can be set to true if this child segment should be loaded by default when no child is specified in the route.
-    
+
 ##### within(childName)
 
 Traverses into an existing segment, so that subsequent `segment` calls will add new segments as its descendants.
-             
-- *childName* 
+
+- *childName*
 
     An existing segment's name. An optional argument. If undefined, then the last added segment is selected.
-    
+
 ##### up()
- 
+
 Traverses up in the tree.
 
 ##### root()
- 
+
 Traverses to the root.
- 
+
 ### $routeSegment properties ###
- 
+
 ##### name
 
 Fully qualified name of current active route.
