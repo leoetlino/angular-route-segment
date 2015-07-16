@@ -254,6 +254,9 @@ mod.provider( '$routeSegment',
                             // if we went back to the same state as we were before resolving new segment
                             resolvingSemaphoreChain[i] = newSegment.name;
                         else {
+                            if ($rootScope.$broadcast('routeSegmentChangeStart', i, newSegment).defaultPrevented) {
+                                return;
+                            }
                             updates.push({index: i, newSegment: newSegment});
                             lastUpdateIndex = i;
                         }
