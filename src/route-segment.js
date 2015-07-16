@@ -455,9 +455,6 @@ mod.provider( '$routeSegment',
                             var newResolve = {error: function() { return $q.when(error); }};
                             return resolve(index, name, angular.extend({resolve: newResolve}, params.resolveFailed));
                         }
-                        else
-                            throw new Error('Resolving failed with a reason `'+error+'`, but no `resolveFailed` ' +
-                                            'provided for segment `'+name+'`');
                     })
         }
 
