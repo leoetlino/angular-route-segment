@@ -316,6 +316,36 @@ A wrapper for `$routeSegment.getSegmentUrl`.
 <a ng-href="{{ 's1.itemInfo.edit' | routeSegmentUrl: {id: 123} }}">
 ```
 
+### Events
+
+##### routeSegmentChange
+
+`routeSegmentChange` is broadcasted after a segment change.
+
+```javascript
+$rootScope.$on('rougeSegmentChange', function (event, route) {
+    // ...
+});
+```
+
+Use `route.segment` to get the segment object.
+
+Note that using `event.preventDefault()` will not do anything, as the segment change has already happened.
+
+#####  routeSegmentChangeStart
+
+`routeSegmentChangeStart` is broadcasted prior to a segment change.
+
+```javascript
+$rootScope.$on('rougeSegmentChangeStart', function (event, index, segment) {
+    // ...
+});
+```
+
+`segment` is the "upcoming" segment object.
+
+Just like the `$routeChangeStart` event from ngRoute, you can use `event.preventDefault()` to prevent a segment change.
+
 License
 -------
 
