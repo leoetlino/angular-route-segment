@@ -9,7 +9,8 @@ describe('route segment', function() {
 
     var $routeSegment, $routeSegmentProvider, $rootScope, $httpBackend, $location, $provide;
     var callback;
-    
+    var changeStartEventCallback;
+
     beforeEach(module(function(_$routeSegmentProvider_, _$provide_) {
 
         $provide = _$provide_;
@@ -248,7 +249,9 @@ describe('route segment', function() {
             $rootScope.$digest();
 
             callback = jasmine.createSpy('event');
+            changeStartEventCallback = jasmine.createSpy('changeStartEvent');
             $rootScope.$on('routeSegmentChange', callback);
+            $rootScope.$on('routeSegmentChangeStart', changeStartEventCallback);
 
             $location.path('/2/X');
 
@@ -256,6 +259,10 @@ describe('route segment', function() {
             expect(callback.calls.length).toBe(1);
             expect(callback.calls[0].args[1]).toEqual({index: 1, segment: {
                 name: 'section21', params: {test: 'C'}, locals: {}, reload: jasmine.any(Function)}});
+
+            expect(changeStartEventCallback.calls.length).toBe(1);
+            expect(changeStartEventCallback.calls[0].args[1]).toEqual(1); // index
+            expect(changeStartEventCallback.calls[0].args[2]).toEqual(jasmine.any(Object)); // segment
         })
 
         it('should go up to parent after going to a child, sending null for previously loaded child segment', function () {
