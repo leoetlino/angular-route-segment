@@ -349,7 +349,7 @@ describe('route segment', function() {
             $routeSegment.chain[0].reload();
 
             $rootScope.$digest();
-            expect(callback.calls.length).toBe(2);
+            expect(callback.calls.length).toBe(3);
             expect(callback.calls[1].args[1].index).toBe(0);
             expect(callback.calls[1].args[1].segment.name).toBe('section2');
         })
