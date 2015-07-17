@@ -248,9 +248,6 @@ mod.provider( '$routeSegment',
                             // if we went back to the same state as we were before resolving new segment
                             resolvingSemaphoreChain[i] = newSegment.name;
                         else {
-                            if ($rootScope.$broadcast('routeSegmentChangeStart', i, newSegment).defaultPrevented) {
-                                return;
-                            }
                             updates.push({index: i, newSegment: newSegment});
                             lastUpdateIndex = i;
                         }
@@ -345,6 +342,10 @@ mod.provider( '$routeSegment',
         }
 
         function updateSegment(index, segment) {
+
+            if ($rootScope.$broadcast('routeSegmentChangeStart', index, segment).defaultPrevented) {
+                return $q.reject('segment change prevented');
+            }
 
             if($routeSegment.chain[index] && $routeSegment.chain[index].clearWatcher) {
                 $routeSegment.chain[index].clearWatcher();
