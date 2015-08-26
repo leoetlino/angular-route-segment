@@ -379,6 +379,10 @@ mod.provider( '$routeSegment',
 
         function resolve(index, name, params) {
 
+            if (params.resolve) {
+                $rootScope.$broadcast('routeSegmentResolveStart', index, name);
+            }
+
             var locals = angular.extend({}, params.resolve);
 
             angular.forEach(locals, function(value, key) {
@@ -411,6 +415,10 @@ mod.provider( '$routeSegment',
 
                         if(resolvingSemaphoreChain[index] != name)
                             return $q.reject();
+
+                        if (params.resolve) {
+                            $rootScope.$broadcast('routeSegmentResolve', index, name);
+                        }
 
                         $routeSegment.chain[index] = {
                                 name: name,
