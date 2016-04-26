@@ -312,7 +312,10 @@ mod.provider( '$routeSegment',
                                         defaultChildUpdatePromise = defaultChildUpdatePromise.then(function () {
                                             return updateSegment(index, {name: children[i].name, params: children[i].params})
                                                 .then(function (result) {
-                                                    if (result && result.success) broadcast(result.success);
+                                                    if (result && result.success) {
+                                                        return broadcast(result.success);
+                                                    }
+                                                    broadcast();
                                                 });
                                         });
                                         curSegment = children[i];
