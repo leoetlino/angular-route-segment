@@ -432,22 +432,30 @@
                                 }
 
                                 $routeSegment.chain[index] = {
-                                    name: name,
-                                    params: params,
+                                    name,
+                                    params,
                                     locals: resolvedLocals,
+                                    reloading: false,
                                     reload: function () {
-                                        var originalSegment = getSegmentInChain(index, $routeSegment.name.split("."));
-                                        updateSegment(index, originalSegment)
-                                            .then(function (result) {
-                                                if (result && result.success) {
-                                                    broadcast(index);
-                                                    if (originalSegment.children) {
-                                                        broadcast(index + 1);
-                                                    }
+                                        // Don't reload when we're already reloading.
+                                        if ($routeSegment.chain[index].reloading) {
+                                            return;
+                                        }
+                                        $routeSegment.chain[index].reloading = true;
+                                        const originalSegment = getSegmentInChain(index, $routeSegment.name.split("."));
+                                        updateSegment(index, originalSegment).then(function (result) {
+                                            $routeSegment.chain[index].reloading = false;
+                                            if (result && result.success) {
+                                                broadcast(index);
+                                                // Refresh sub-segments.
+                                                if ($routeSegment.chain[index + 1]) {
+                                                    $routeSegment.chain[index + 1].reload();
                                                 }
-                                            });
+                                            }
+                                        });
                                     }
                                 };
+
 
                                 if (params.watcher) {
 
