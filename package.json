@@ -4,9 +4,6 @@
   "devDependencies": {
     "eslint": "^2.8.0",
     "grunt": "",
-    "grunt-contrib-concat": "",
-    "grunt-contrib-uglify": "",
-    "grunt-git-describe": "",
     "grunt-karma": "",
     "karma": "",
     "karma-jasmine": "0.1.5",
