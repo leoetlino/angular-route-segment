@@ -1,19 +1,20 @@
 {
-    "name": "angular-route-segment",
-    "version": "1.5.0",
-    "devDependencies": {
-        "grunt": "",
-        "grunt-contrib-uglify": "",
-        "grunt-contrib-concat": "",
-        "grunt-karma": "",
-        "karma": "",
-        "karma-jasmine": "0.1.5",
-        "karma-phantomjs-launcher": "",
-        "karma-junit-reporter": "",
-        "grunt-git-describe": ""
-    },
-    "main": "build/angular-route-segment.js",
-    "scripts": {
-        "test": "grunt karma"
-    }
+  "name": "angular-route-segment",
+  "version": "1.5.0",
+  "devDependencies": {
+    "eslint": "^2.8.0",
+    "grunt": "",
+    "grunt-contrib-concat": "",
+    "grunt-contrib-uglify": "",
+    "grunt-git-describe": "",
+    "grunt-karma": "",
+    "karma": "",
+    "karma-jasmine": "0.1.5",
+    "karma-junit-reporter": "",
+    "karma-phantomjs-launcher": ""
+  },
+  "main": "build/angular-route-segment.js",
+  "scripts": {
+    "test": "grunt karma"
+  }
 }
