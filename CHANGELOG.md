@@ -1,3 +1,11 @@
+# 2.0.0 (2016-04-28)
+
+- Drop build files and Bower support. Using Webpack is recommended instead. If
+  for some reason this is not possible, it is still possible to manually use
+  the files in src/.
+  
+- Now needs a modern browser/Node with good ES6 support.
+
 # 1.5.0 (2015-06-15)
 
 - Changed `$routeSegmentProvider.when` signature to `when(path, name, route)` which enables to extend the route information object with any custom properties, like `reloadOnSearch` or `caseInsensitiveMatch` ([425ac](https://github.com/artch/angular-route-segment/commit/1c21f9f40855cf9d8a74f6a760471b0eae7425ac)) thanks to [krmarien](https://github.com/krmarien).
