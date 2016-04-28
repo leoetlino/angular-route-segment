@@ -274,7 +274,7 @@
                                      })
                                     .then(function (result) {
 
-                                        if (result.success) {
+                                        if (result.success != null) {
 
                                             broadcast(result.success);
 
@@ -317,7 +317,7 @@
                                                 name: children[i].name,
                                                 params: children[i].params
                                             }).then(function (result) {
-                                                if (result && result.success) {
+                                                if (result && result.success != null) {
                                                     return broadcast(result.success);
                                                 }
                                                 broadcast();
@@ -377,7 +377,7 @@
                          if (segment.params.untilResolved) {
                              return resolve(index, segment.name, segment.params.untilResolved)
                             .then(function (result) {
-                                if (result.success)
+                                if (result.success != null)
                                     broadcast(index);
                                 return resolve(index, segment.name, segment.params);
                             });
@@ -445,7 +445,7 @@
                                         const originalSegment = getSegmentInChain(index, $routeSegment.name.split("."));
                                         updateSegment(index, originalSegment).then(function (result) {
                                             $routeSegment.chain[index].reloading = false;
-                                            if (result && result.success) {
+                                            if (result && result.success != null) {
                                                 broadcast(index);
                                                 // Refresh sub-segments.
                                                 if ($routeSegment.chain[index + 1]) {

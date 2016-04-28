@@ -10,7 +10,7 @@
         "curly": 1,
         "dot-notation": 2,
         "dot-location": [1, "property"],
-        "eqeqeq": 2,
+        "eqeqeq": ["error", "smart"],
         "guard-for-in": 2,
         "no-alert": 1,
         "no-else-return": 2,
