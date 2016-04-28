@@ -1,6 +1,6 @@
 {
   "name": "angular-route-segment",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "devDependencies": {
     "eslint": "^2.8.0",
     "grunt": "",
@@ -13,7 +13,7 @@
     "karma-junit-reporter": "",
     "karma-phantomjs-launcher": ""
   },
-  "main": "build/angular-route-segment.js",
+  "main": "index.js",
   "scripts": {
     "test": "grunt karma"
   }
