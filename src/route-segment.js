@@ -273,12 +273,10 @@
                                          return updateSegment(updates[i].index, updates[i].newSegment);
                                      })
                                     .then(function (result) {
-
-                                        if (result.success != null) {
-
+                                        if (result && result.success != null) {
                                             broadcast(result.success);
 
-                                            for (var j = updates[i].index + 1; j < $routeSegment.chain.length; j++) {
+                                            for (let j = updates[i].index + 1; j < $routeSegment.chain.length; j++) {
 
                                                 if ($routeSegment.chain[j]) {
                                                     $routeSegment.chain[j] = null;
@@ -377,8 +375,9 @@
                          if (segment.params.untilResolved) {
                              return resolve(index, segment.name, segment.params.untilResolved)
                             .then(function (result) {
-                                if (result.success != null)
+                                if (result && result.success != null) {
                                     broadcast(index);
+                                }
                                 return resolve(index, segment.name, segment.params);
                             });
                          }
