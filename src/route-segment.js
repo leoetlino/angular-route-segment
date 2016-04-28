@@ -311,7 +311,7 @@
 
                                     var curSegment = getSegmentInChain(lastUpdateIndex, $routeSegment.name.split("."));
 
-                                    const makePromiseSuccessHandler = (children, i) => {
+                                    const makePromiseSuccessHandler = (index, children, i) => {
                                         return function () {
                                             return updateSegment(index, {
                                                 name: children[i].name,
@@ -331,7 +331,7 @@
                                         curSegment = null;
                                         for (let i in children) {
                                             if (children[i].params.default) {
-                                                defaultChildUpdatePromise = defaultChildUpdatePromise.then(makePromiseSuccessHandler(children, i));
+                                                defaultChildUpdatePromise = defaultChildUpdatePromise.then(makePromiseSuccessHandler(index, children, i));
                                                 curSegment = children[i];
                                                 lastUpdateIndex = index;
                                             }
