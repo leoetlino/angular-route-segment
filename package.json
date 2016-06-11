@@ -1,6 +1,6 @@
 {
   "name": "angular-route-segment",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "devDependencies": {
     "eslint": "^2.8.0",
     "grunt": "^0.4.5",

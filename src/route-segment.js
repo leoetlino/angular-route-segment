@@ -126,7 +126,10 @@
          * @param {string} name Fully qualified route name, e.g. 'foo.bar'
          * @param {Object} route Mapping information to be assigned to $route.current on route match.
          */
-        $routeSegmentProvider.when = function (path, name, route = {}) {
+        $routeSegmentProvider.when = function (path, name, route) {
+            if (!route) {
+                route = {};
+            }
             route.segment = name;
 
             $routeProvider.when(path, route);
