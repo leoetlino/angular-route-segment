@@ -558,7 +558,7 @@
      */
     mod.filter("routeSegmentUrl", ["$routeSegment", function ($routeSegment) {
         var filter = function (segmentName, params) {
-            return $routeSegment.getSegmentUrl(segmentName, params);
+            return $routeSegment.getSegmentUrl(segmentName, params).slice(1);
         };
         filter.$stateful = true;
         return filter;
